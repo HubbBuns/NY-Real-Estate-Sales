@@ -9,13 +9,13 @@ JOIN property p
 #Checking for missing values in sales price
 SELECT *
 FROM mean_missing_sales_values
-WHERE sale_price = 0
+WHERE sale_price = 0 
 
 #Getting the distinct neighborhood names 
 SELECT
     DISTINCT neighborhood
 FROM mean_missing_sales_values
-WHERE sale_price = 0 AND borough = "Queens"
+WHERE sale_price = 0
 
 #Using imputation for missing sales values by getting the mean from each neighborhood vs borough, for a more accurate mean distribution 
 #Getting the mean sales price from each neighborhood
@@ -23,17 +23,200 @@ SELECT
 	neighborhood,
     ROUND(AVG(sale_price), 0) AS mean_sales
 FROM mean_missing_sales_values
-WHERE sale_price != 0
+WHERE sale_price != 0 
 GROUP BY neighborhood
 
 #Updating the missing sale price values with the mean values from and into their respective neighborhoods
+#Instead of manually copy and pasting each unique neighborhood and their mean sales price into each case statement,
+excel was used with concatanation using the formula =CONCATENATE("    ", A1, B1, C1, " ", D1)
+#The excel sheet resulting in this will be attached which saves time by simply copy and pasting down each cell and then simply
+pasting the results onto MySQL
 UPDATE mean_missing_sales_values
-SET sale_price = 1319061
-WHERE sale_price = 0 AND zip_code = 11102
+SET sale_price =
+CASE
+    WHEN neighborhood = "AIRPORT JFK" THEN 4121000
+    WHEN neighborhood = "AIRPORT LA GUARDIA" THEN 733190
+    WHEN neighborhood = "ARVERNE" THEN 614873 
+    WHEN neighborhood = "ASTORIA" THEN 1295034
+    WHEN neighborhood = "BAYSIDE" THEN 812969
+    WHEN neighborhood = "BEECHHURST" THEN 652733 
+    WHEN neighborhood = "BELLE HARBOR" THEN 859404
+    WHEN neighborhood = "BELLEROSE" THEN 693703
+    WHEN neighborhood = "BREEZY POINT" THEN 593443
+    WHEN neighborhood = "BRIARWOOD" THEN 655293
+    WHEN neighborhood = "BROAD CHANNEL" THEN 360509
+    WHEN neighborhood = "CAMBRIA HEIGHTS" THEN 463900
+    WHEN neighborhood = "COLLEGE POINT" THEN 1718512
+    WHEN neighborhood = "CORONA" THEN 827926
+    WHEN neighborhood = "DOUGLASTON" THEN 756327
+    WHEN neighborhood = "EAST ELMHURST" THEN 1497862
+    WHEN neighborhood = "ELMHURST" THEN 4214294
+    WHEN neighborhood = "FAR ROCKAWAY" THEN 742882
+    WHEN neighborhood = "FLORAL PARK" THEN 647300
+    WHEN neighborhood = "FLUSHING MEADOW PARK" THEN 450727
+    WHEN neighborhood = "FLUSHING-NORTH" THEN 1887890
+    WHEN neighborhood = "FLUSHING-SOUTH" THEN 574483
+    WHEN neighborhood = "FOREST HILLS" THEN 710847
+    WHEN neighborhood = "FRESH MEADOWS" THEN 853735
+    WHEN neighborhood = "GLEN OAKS" THEN 393649
+    WHEN neighborhood = "GLENDALE" THEN 1279760
+    WHEN neighborhood = "HAMMELS" THEN 440294
+    WHEN neighborhood = "HILLCREST" THEN 483641
+    WHEN neighborhood = "HOLLIS" THEN 874984
+    WHEN neighborhood = "HILLCREST" THEN 483641
+    WHEN neighborhood = "HOLLIS" THEN 874984
+    WHEN neighborhood = "HOLLIS HILLS" THEN 850559
+    WHEN neighborhood = "HOLLISWOOD" THEN 664953
+    WHEN neighborhood = "HOWARD BEACH" THEN 541774
+    WHEN neighborhood = "JACKSON HEIGHTS" THEN 680070
+    WHEN neighborhood = "JAMAICA" THEN 1352278
+    WHEN neighborhood = "JAMAICA BAY" THEN 570444
+    WHEN neighborhood = "JAMAICA ESTATES" THEN 997984
+    WHEN neighborhood = "JAMAICA HILLS" THEN 915517
+    WHEN neighborhood = "KEW GARDENS" THEN 533745
+    WHEN neighborhood = "LAURELTON" THEN 547472
+    WHEN neighborhood = "LITTLE NECK" THEN 697475
+    WHEN neighborhood = "LONG ISLAND CITY" THEN 2980414
+    WHEN neighborhood = "MASPETH" THEN 2100413
+    WHEN neighborhood = "MIDDLE VILLAGE" THEN 759964
+    WHEN neighborhood = "NEPONSIT" THEN 1084653
+    WHEN neighborhood = "OAKLAND GARDENS" THEN 454220
+    WHEN neighborhood = "OZONE PARK" THEN 726309
+    WHEN neighborhood = "QUEENS VILLAGE" THEN 554730
+    WHEN neighborhood = "REGO PARK" THEN 544148
+    WHEN neighborhood = "RICHMOND HILL" THEN 777067
+    WHEN neighborhood = "RIDGEWOOD" THEN 1163523
+    WHEN neighborhood = "ROCKAWAY PARK" THEN 633583
+    WHEN neighborhood = "ROSEDALE" THEN 1487050
+    WHEN neighborhood = "SO. JAMAICA-BAISLEY PARK" THEN 521767
+    WHEN neighborhood = "SOUTH JAMAICA" THEN 577979
+    WHEN neighborhood = "SOUTH OZONE PARK" THEN 607292
+    WHEN neighborhood = "SPRINGFIELD GARDENS" THEN 715147
+    WHEN neighborhood = "ST. ALBANS" THEN 531717
+    WHEN neighborhood = "SUNNYSIDE" THEN 722209
+    WHEN neighborhood = "WHITESTONE" THEN 839988
+    WHEN neighborhood = "WOODHAVEN" THEN 677240
+    WHEN neighborhood = "WOODSIDE" THEN 852852
+    WHEN neighborhood = "BATH BEACH" THEN 1078209
+    WHEN neighborhood = "BAY RIDGE" THEN 990624
+    WHEN neighborhood = "BEDFORD STUYVESANT" THEN 1658708
+    WHEN neighborhood = "BENSONHURST" THEN 1171915
+    WHEN neighborhood = "BERGEN BEACH" THEN 761786
+    WHEN neighborhood = "BOERUM HILL" THEN 1910271
+    WHEN neighborhood = "BOROUGH PARK" THEN 1361062
+    WHEN neighborhood = "BRIGHTON BEACH" THEN 575373
+    WHEN neighborhood = "BROOKLYN HEIGHTS" THEN 2098476
+    WHEN neighborhood = "BROWNSVILLE" THEN 1359173
+    WHEN neighborhood = "BUSH TERMINAL" THEN 7266247
+    WHEN neighborhood = "BUSHWICK" THEN 1468490
+    WHEN neighborhood = "CANARSIE" THEN 759116
+    WHEN neighborhood = "CARROLL GARDENS" THEN 1956455
+    WHEN neighborhood = "CLINTON HILL" THEN 1810372
+    WHEN neighborhood = "COBBLE HILL" THEN 2153205
+    WHEN neighborhood = "COBBLE HILL-WEST" THEN 1329731
+    WHEN neighborhood = "CONEY ISLAND" THEN 454945
+    WHEN neighborhood = "CROWN HEIGHTS" THEN 1354629
+    WHEN neighborhood = "CYPRESS HILLS" THEN 658514
+    WHEN neighborhood = "DOWNTOWN-FULTON FERRY" THEN 1451003
+    WHEN neighborhood = "DOWNTOWN-FULTON MALL" THEN 1989018
+    WHEN neighborhood = "DOWNTOWN-METROTECH" THEN 989814
+    WHEN neighborhood = "DYKER HEIGHTS" THEN 1215967
+    WHEN neighborhood = "EAST NEW YORK" THEN 1332217
+    WHEN neighborhood = "FLATBUSH-CENTRAL" THEN 1274919
+    WHEN neighborhood = "FLATBUSH-EAST" THEN 717077
+    WHEN neighborhood = "FLATBUSH-LEFFERTS GARDEN" THEN 1226554
+    WHEN neighborhood = "FLATBUSH-NORTH" THEN 716802
+    WHEN neighborhood = "FLATLANDS" THEN 655317
+    WHEN neighborhood = "FORT GREENE" THEN 1448940
+    WHEN neighborhood = "GERRITSEN BEACH" THEN 555039
+    WHEN neighborhood = "GOWANUS" THEN 2034031
+    WHEN neighborhood = "GRAVESEND" THEN 1037411
+    WHEN neighborhood = "GREENPOINT" THEN 2001017
+    WHEN neighborhood = "KENSINGTON" THEN 789156
+    WHEN neighborhood = "MADISON" THEN 808948
+    WHEN neighborhood = "MANHATTAN BEACH" THEN 1441767
+    WHEN neighborhood = "MARINE PARK" THEN 677663
+    WHEN neighborhood = "MIDWOOD" THEN 955096
+    WHEN neighborhood = "MILL BASIN" THEN 1452984
+    WHEN neighborhood = "NAVY YARD" THEN 1712620
+    WHEN neighborhood = "OCEAN HILL" THEN 1043543
+    WHEN neighborhood = "OCEAN PARKWAY-NORTH" THEN 1372235
+    WHEN neighborhood = "OCEAN PARKWAY-SOUTH" THEN 1430237
+    WHEN neighborhood = "OLD MILL BASIN" THEN 560438
+    WHEN neighborhood = "PARK SLOPE" THEN 1842173
+    WHEN neighborhood = "PARK SLOPE SOUTH" THEN 1517968
+    WHEN neighborhood = "PROSPECT HEIGHTS" THEN 1684516
+    WHEN neighborhood = "RED HOOK" THEN 6484657
+    WHEN neighborhood = "SEAGATE" THEN 653021
+    WHEN neighborhood = "SHEEPSHEAD BAY" THEN 830442
+    WHEN neighborhood = "SPRING CREEK" THEN 587325
+    WHEN neighborhood = "SUNSET PARK" THEN 1157923
+    WHEN neighborhood = "WILLIAMSBURG-CENTRAL" THEN 940436
+    WHEN neighborhood = "WILLIAMSBURG-EAST" THEN 1910884
+    WHEN neighborhood = "WILLIAMSBURG-NORTH" THEN 2368063
+    WHEN neighborhood = "WILLIAMSBURG-SOUTH" THEN 1285355
+    WHEN neighborhood = "WINDSOR TERRACE" THEN 1166747
+    WHEN neighborhood = "WYCKOFF HEIGHTS" THEN 1613647
+    WHEN neighborhood = "BATHGATE" THEN 936891
+    WHEN neighborhood = "BAYCHESTER" THEN 622323
+    WHEN neighborhood = "BEDFORD PARK/NORWOOD" THEN 2284949
+    WHEN neighborhood = "BELMONT" THEN 1473157
+    WHEN neighborhood = "BRONX PARK" THEN 1733333
+    WHEN neighborhood = "BRONXDALE" THEN 2268440
+    WHEN neighborhood = "CASTLE HILL/UNIONPORT" THEN 803985
+    WHEN neighborhood = "CITY ISLAND" THEN 604738
+    WHEN neighborhood = "CITY ISLAND-PELHAM STRIP" THEN 1485402
+    WHEN neighborhood = "CO-OP CITY" THEN 1500000
+    WHEN neighborhood = "COUNTRY CLUB" THEN 658606
+    WHEN neighborhood = "CROTONA PARK" THEN 892544
+    WHEN neighborhood = "EAST TREMONT" THEN 890018
+    WHEN neighborhood = "FIELDSTON" THEN 1557276
+    WHEN neighborhood = "FORDHAM" THEN 2660992
+    WHEN neighborhood = "HIGHBRIDGE/MORRIS HEIGHTS" THEN 2731646
+    WHEN neighborhood = "HUNTS POINT" THEN 8295206
+    WHEN neighborhood = "KINGSBRIDGE HTS/UNIV HTS" THEN 2541180
+    WHEN neighborhood = "KINGSBRIDGE/JEROME PARK" THEN 764802
+    WHEN neighborhood = "MELROSE/CONCOURSE" THEN 2541598
+    WHEN neighborhood = "MORRIS PARK/VAN NEST" THEN 707249
+    WHEN neighborhood = "MORRISANIA/LONGWOOD" THEN 1736892
+    WHEN neighborhood = "MOTT HAVEN/PORT MORRIS" THEN 14688244
+    WHEN neighborhood = "MOUNT HOPE/MOUNT EDEN" THEN 1335764
+    WHEN neighborhood = "PARKCHESTER" THEN 373876
+    WHEN neighborhood = "PELHAM GARDENS" THEN 679841
+    WHEN neighborhood = "PELHAM PARKWAY NORTH" THEN 654577
+    WHEN neighborhood = "PELHAM PARKWAY SOUTH" THEN 703145
+    WHEN neighborhood = "RIVERDALE" THEN 7035227
+    WHEN neighborhood = "SCHUYLERVILLE/PELHAM BAY" THEN 754313
+    WHEN neighborhood = "SOUNDVIEW" THEN 656125
+    WHEN neighborhood = "THROGS NECK" THEN 573248
+    WHEN neighborhood = "VAN CORTLANDT PARK" THEN 298333
+    WHEN neighborhood = "WAKEFIELD" THEN 571868
+    WHEN neighborhood = "WESTCHESTER" THEN 1313238
+    WHEN neighborhood = "WILLIAMSBRIDGE" THEN 636601
+    WHEN neighborhood = "WOODLAWN" THEN 498369
+    WHEN neighborhood = "ALPHABET CITY" THEN 1516803
+    WHEN neighborhood = "CHELSEA" THEN 3191055
+    WHEN neighborhood = "CHINATOWN" THEN 2038145
+    WHEN neighborhood = "CIVIC CENTER" THEN 3547987
+    WHEN neighborhood = "CLINTON" THEN 15186834
+    WHEN neighborhood = "EAST VILLAGE" THEN 2903233
+    WHEN neighborhood = "FASHION" THEN 28881778
+    WHEN neighborhood = "FINANCIAL" THEN 2572025
+    WHEN neighborhood = "FLATIRON" THEN 3456714
+    WHEN neighborhood = "GRAMERCY" THEN 2131386
+    WHEN neighborhood = "GREENWICH VILLAGE-CENTRAL" THEN 2520709
+    WHEN neighborhood = "GREENWICH VILLAGE-WEST" THEN 3875014
+    WHEN neighborhood = "HARLEM-CENTRAL" THEN 1569370
+    WHEN neighborhood = "HARLEM-EAST" THEN 993746
+    WHEN neighborhood = "HARLEM-UPPER" THEN 687628
+    WHEN neighborhood = "HARLEM-WEST" THEN 1353115
+    WHEN neighborhood = "INWOOD" THEN 1364304
+    WHEN neighborhood = "JAVITS CENTER" THEN 15566940
+    ELSE 1175974
+		END
+WHERE sale_price = 0
 
-SELECT
-	AVG(sale_price),
-    zip_code
-FROM mean_missing_sales_values
-WHERE zip_code = 11102
-GROUP BY zip_code
+#Checking to see if there are any missing and incomplete data before querying for data analysis
+SELECT *
+FROM mean_missing_sales_values 
+WHERE sale_price = 0 OR " " OR NULL
