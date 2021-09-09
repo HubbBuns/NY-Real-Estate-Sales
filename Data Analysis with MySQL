@@ -1,0 +1,37 @@
+#Finding the average amount of sales per year in each borough
+SELECT 
+	borough,
+    YEAR(date) AS year,
+	ROUND(AVG(sale_price), 0) AS avg_sales
+FROM mean_missing_sales_values
+GROUP BY borough, year
+ORDER BY year
+
+#Finding the total amount of sales per year in each borough
+SELECT 
+	borough,
+    YEAR(date) AS year,
+	SUM(sale_price) AS avg_sales
+FROM mean_missing_sales_values
+GROUP BY borough, year
+ORDER BY year
+
+#Finding the average amount of sales in condos
+SELECT 
+	borough,
+    YEAR(date) AS year,
+	ROUND(AVG(sale_price), 0) AS avg_sales
+FROM mean_missing_sales_values
+WHERE building_class_category REGEXP "CONDO"
+GROUP BY borough, year
+ORDER BY year
+
+#Finding the average amount of sales in family houses
+SELECT 
+	borough,
+    YEAR(date) AS year,
+	ROUND(AVG(sale_price), 0) AS avg_sales
+FROM mean_missing_sales_values
+WHERE building_class_category REGEXP "FAMILY"
+GROUP BY borough, year
+ORDER BY year
