@@ -1,0 +1,59 @@
+#Creating the database 
+CREATE SCHEMA IF NOT EXISTS `ny_real_estate` DEFAULT CHARACTER SET utf8 ;
+USE `ny_real_estate` ;
+
+#Creating the properties table
+CREATE TABLE IF NOT EXISTS `ny_real_estate`.`property` (
+  `property_id` INT NOT NULL AUTO_INCREMENT,
+  `building_class_category` VARCHAR(100) NULL DEFAULT NULL,
+  `building_code` VARCHAR(45) NULL DEFAULT NULL,
+  `apartment_number` VARCHAR(25) NULL DEFAULT NULL,
+  `borough` VARCHAR(45) NULL DEFAULT NULL,
+  `neighborhood` VARCHAR(45) NULL DEFAULT NULL,
+  `address` VARCHAR(45) NULL DEFAULT NULL,
+  `zip_code` INT NULL DEFAULT NULL,
+  `land_square_feet` INT NULL DEFAULT NULL,
+  `gross_square_feet` INT NULL DEFAULT NULL,
+  `year_built` YEAR NULL DEFAULT NULL,
+  PRIMARY KEY (`property_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 426020
+DEFAULT CHARACTER SET = utf8;
+
+#Creating the sales table
+CREATE TABLE IF NOT EXISTS `ny_real_estate`.`sales` (
+  `sales_id` INT NOT NULL AUTO_INCREMENT,
+  `property_id` INT NOT NULL,
+  `sale_price` INT NULL DEFAULT NULL,
+  `date` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`sales_id`),
+  INDEX `fk_Sales_Property1_idx` (`property_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Sales_Property1`
+    FOREIGN KEY (`property_id`)
+    REFERENCES `ny_real_estate`.`property` (`property_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 77202
+DEFAULT CHARACTER SET = utf8;
+
+#Prior to importing the csv files into MySQL, columns were reformatted to properly align with 
+database columns in their respective order and names in order to ensure proper loading
+#Data would not load values properly into respective columns without creating an excel column of property_id
+#All files were imported by changing the file name ie. Queens, Brooklyn, Staten Island, Bronx, and Manhatten (only Queens is shown here to avoid duplication)
+#Import CSV file into MySQL into the property table
+USE ny_real_estate;
+LOAD DATA LOCAL INFILE 'C:/Users/peter/OneDrive/Desktop/Queens_Property_CSV_Import_MySQL.csv' 
+INTO TABLE property
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS
+
+#Data would not load values properly into respective columns without creating an excel column of sales_id
+#Import CSV file into MySQL into the sales table
+USE ny_real_estate;
+LOAD DATA LOCAL INFILE 'C:/Users/peter/OneDrive/Desktop/Queens_Sales_CSV_Import_MySQL.csv' 
+INTO TABLE sales
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS
