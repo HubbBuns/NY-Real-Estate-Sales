@@ -1,0 +1,39 @@
+#Creating a view to store the clean data and for reusability
+CREATE OR REPLACE VIEW mean_missing_sales_values AS 
+SELECT *
+FROM sales s
+JOIN property p
+	USING (property_id)
+
+#While looking through the data, the most relevant data missing values were sale prices 
+#Checking for missing values in sales price
+SELECT *
+FROM mean_missing_sales_values
+WHERE sale_price = 0
+
+#Getting the distinct neighborhood names 
+SELECT
+    DISTINCT neighborhood
+FROM mean_missing_sales_values
+WHERE sale_price = 0 AND borough = "Queens"
+
+#Using imputation for missing sales values by getting the mean from each neighborhood vs borough, for a more accurate mean distribution 
+#Getting the mean sales price from each neighborhood
+SELECT 
+	neighborhood,
+    ROUND(AVG(sale_price), 0) AS mean_sales
+FROM mean_missing_sales_values
+WHERE sale_price != 0
+GROUP BY neighborhood
+
+#Updating the missing sale price values with the mean values from and into their respective neighborhoods
+UPDATE mean_missing_sales_values
+SET sale_price = 1319061
+WHERE sale_price = 0 AND zip_code = 11102
+
+SELECT
+	AVG(sale_price),
+    zip_code
+FROM mean_missing_sales_values
+WHERE zip_code = 11102
+GROUP BY zip_code
